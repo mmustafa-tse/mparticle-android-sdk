@@ -1,0 +1,45 @@
+name: "Docsite Update"
+
+on:
+  # Run daily at midnight
+#  schedule:
+#    - cron: "0 0 * * *"
+
+  # Allow workflow to be manually run from the GitHub UI
+  workflow_dispatch:
+
+jobs:
+  update-docsite:
+    name: "Update Docsite"
+    timeout-minutes: 15
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout Android SDK"
+        uses: actions/checkout@v2
+        with:
+          repository: mparticle/mparticle-android-sdk
+          ref: main
+          path: android-sdk
+      - name: "Checkout Docsite"
+        uses: actions/checkout@v2
+        with:
+          repository: mparticle/docsite
+          ref: development
+          path: docsite
+      - name: "Install JDK 11"
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+      - name: "Generate Javadocs"
+        working-directory: android
+        run: ./gradlew coreSdkJavadocs
+      - name: "Copy New Javadocs"
+        run: |
+          git status
+          git rm -rf docsite/static/developers/sdk/android/javadocs
+          mkdir docsite/static/developers/sdk/android/
+          mv android-sdk/android-core/build/docs/javadoc docsite/static/developers/sdk/android/javadocs
+          git add -A
+          git commit -m "feat: update android javadocs"
+          git push origin feature/javadocs-automated-update
