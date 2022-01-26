@@ -12,7 +12,7 @@ jobs:
   update-docsite:
     name: "Update Docsite"
     timeout-minutes: 15
-    runs-on: ubuntu-18.04
+    runs-on: self-hosted
     steps:
       - name: "Checkout Android SDK"
         uses: actions/checkout@v2
