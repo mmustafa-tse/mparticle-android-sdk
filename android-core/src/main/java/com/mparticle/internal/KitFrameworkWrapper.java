@@ -425,7 +425,7 @@ public class KitFrameworkWrapper implements KitManager {
     }
 
     @Override
-    public Uri getSurveyUrl(int kitId, Map<String, String> userAttributes, Map<String, List<String>> userAttributeLists) {
+    public Uri getSurveyUrl(int kitId, Map<String, String> userAttributes, Map<String, ? extends List<String>> userAttributeLists) {
         if (mKitManager != null) {
             return mKitManager.getSurveyUrl(kitId, userAttributes, userAttributeLists);
         }

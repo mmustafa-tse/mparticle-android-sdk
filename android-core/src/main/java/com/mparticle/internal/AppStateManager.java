@@ -81,7 +81,7 @@ public class  AppStateManager {
     private Uri mLaunchUri;
     private String mLaunchAction;
 
-    public AppStateManager(Context context, boolean unitTesting){
+    public AppStateManager(Context context, boolean unitTesting) {
         mUnitTesting = unitTesting;
         mContext = context.getApplicationContext();
         mLastStoppedTime = new AtomicLong(getTime());
@@ -114,16 +114,16 @@ public class  AppStateManager {
         return mLaunchUri;
     }
 
-    public void setConfigManager(ConfigManager manager){
+    public void setConfigManager(ConfigManager manager) {
         mConfigManager = manager;
     }
 
-    public void setMessageManager(MessageManager manager){
+    public void setMessageManager(MessageManager manager) {
         mMessageManager = manager;
     }
 
-    private long getTime(){
-        if (mUnitTesting){
+    private long getTime() {
+        if (mUnitTesting) {
             return System.currentTimeMillis();
         }else {
             return SystemClock.elapsedRealtime();
@@ -227,7 +227,7 @@ public class  AppStateManager {
                             logBackgrounded();
                             mConfigManager.setPreviousAdId();
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -293,12 +293,12 @@ public class  AppStateManager {
         checkSessionTimeout();
     }
 
-    private void enableLocationTracking(){
-        if (mPreferences.contains(Constants.PrefKeys.LOCATION_PROVIDER)){
+    private void enableLocationTracking() {
+        if (mPreferences.contains(Constants.PrefKeys.LOCATION_PROVIDER)) {
             String provider = mPreferences.getString(Constants.PrefKeys.LOCATION_PROVIDER, null);
             long minTime = mPreferences.getLong(Constants.PrefKeys.LOCATION_MINTIME, 0);
             long minDistance = mPreferences.getLong(Constants.PrefKeys.LOCATION_MINDISTANCE, 0);
-            if (provider != null && minTime > 0 && minDistance > 0){
+            if (provider != null && minTime > 0 && minDistance > 0) {
                 MParticle instance = MParticle.getInstance();
                 if (instance != null) {
                     instance.enableLocationTracking(provider, minTime, minDistance);
@@ -340,14 +340,14 @@ public class  AppStateManager {
                 0);
     }
 
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState){
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         MParticle instance = MParticle.getInstance();
         if (instance != null) {
             instance.Internal().getKitManager().onActivityCreated(activity, savedInstanceState);
         }
     }
 
-    public void onActivityStarted(Activity activity){
+    public void onActivityStarted(Activity activity) {
         MParticle instance = MParticle.getInstance();
         if (instance != null) {
             instance.Internal().getKitManager().onActivityStarted(activity);
@@ -361,7 +361,7 @@ public class  AppStateManager {
         }
     }
 
-    private void logBackgrounded(){
+    private void logBackgrounded() {
         MParticle instance = MParticle.getInstance();
         if (instance != null) {
             logStateTransition(Constants.StateTransitionType.STATE_TRANS_BG, mCurrentActivityName);
